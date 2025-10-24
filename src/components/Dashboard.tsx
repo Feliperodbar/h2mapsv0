@@ -1,5 +1,5 @@
-import Statistics from './Statistics';
 import { useState, useEffect } from 'react';
+import Statistics from './Statistics';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
@@ -1029,46 +1029,29 @@ const Dashboard = () => {
             
             {/* Search Suggestions Dropdown */}
             {showSuggestions && searchSuggestions.length > 0 && (
-              <div className="absolute top-full left-0 right-0 mt-1 bg-h2-white border border-h2-medium-green rounded-lg shadow-lg max-h-60 overflow-y-auto z-50">
-                {searchSuggestions.map((city, index) => (
-                  <button
-                    key={index}
-                    onClick={() => selectCity(city)}
-                    className="w-full px-4 py-3 text-left hover:bg-h2-light-green transition-colors border-b border-h2-bright last:border-b-0"
-                  >
-                    <div className="flex items-center justify-between">
-                      <span className="font-medium text-h2-dark">{city.name}</span>
-                      <span className="text-sm text-h2-bright">{city.state}</span>
-                    </div>
-                  </button>
-                ))}
-              </div>
-            )}
+             
+
+function App() {
+  const handleSearch = (query) => {
+    console.log('Busca realizada:', query);
+    // Aqui você pode integrar com sua API ou lógica de filtragem
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+      <SearchBar onSearch={handleSearch} />
+    </div>
+  );
+}
+
+)}
           </div>
           </div>
         )}
 
 
 
-        {/* Navigation Menu */}
-        {sidebarOpen && (
-          <div className="p-4">
-            <h3 className="text-sm font-semibold text-h2-bright mb-3">NAVEGAÇÃO</h3>
-            <div className="space-y-2">
-              <button className="w-full flex items-center space-x-3 px-3 py-2 rounded-lg hover:bg-h2-light-green transition-colors">
-                <Star className="w-5 h-5 text-h2-orange" />
-                <span className="text-sm font-medium text-h2-dark">Favoritos</span>
-              </button>
-              <Link 
-                to="/statistics" 
-                className="w-full flex items-center space-x-3 px-3 py-2 rounded-lg hover:bg-h2-light-green transition-colors"
-              >
-                <BarChart3 className="w-5 h-5 text-h2-blue" />
-                <span className="text-sm font-medium text-h2-dark">Estatísticas</span>
-              </Link>
-            </div>
-          </div>
-        )}
+       
 
         {/* Map Controls */}
         {sidebarOpen && (
@@ -1081,7 +1064,7 @@ const Dashboard = () => {
               {/* Hydrogen Analysis Section */}
               {sidebarOpen && (
                 <div className=" border-b border-h2-bright">
-                  <h3 className="text-sm font-semibold text-h2 mb-3">ANÁLISE DE HIDROGÊNIO</h3>
+                  <h3 className="text-sm font-semibold text-h2 mb-3">ANÁLISE DE VIABILIDADE </h3>
                   <div className="space-y-3">
                     <div>
                       <label className="text-xs text-h2 mb-1 block">Período de Análise</label>
@@ -1121,8 +1104,7 @@ const Dashboard = () => {
                         {analysisLoading ? 'Analisando...' : 'Analisar Viabilidade'}
                       </span>
                     </button>
-                    
-                    {/* Quick Results */}
+                     {/* Quick Results */}
                     {hydrogenViability && (
                       <div className="mt-3 p-2 bg-h2-light-green rounded text-xs">
                         <div className="space-y-1">
@@ -1141,6 +1123,27 @@ const Dashboard = () => {
                         </div>
                       </div>
                     )}
+                     {/* Navigation Menu */}
+        {sidebarOpen && (
+          <div className="p-4">
+            <h3 className="text-sm font-semibold mb-3">NAVEGAÇÃO</h3>
+            <div className="space-y-2">
+              <button className="w-full flex items-center space-x-3 px-3 py-2 rounded-lg hover:bg-h2-light-green transition-colors">
+                <Star className="w-5 h-5 text-h2-orange" />
+                <span className="text-sm font-medium text-h2-dark">Favoritos</span>
+              </button>
+              <Link 
+                to="/statistics" 
+                className="w-full flex items-center space-x-3 px-3 py-2 rounded-lg hover:bg-h2-light-green transition-colors"
+              >
+                <BarChart3 className="w-5 h-5 text-h2-blue" />
+                <span className="text-sm font-medium text-h2-dark">Dados Estatísticos</span>
+              </Link>
+            </div>
+          </div>
+        )}
+                    
+                   
                   </div>
                 </div>
               )}
@@ -1150,6 +1153,7 @@ const Dashboard = () => {
 
 
       </div>
+      
 
       {/* Main Content */}
       <div className="flex-1 flex flex-col">
@@ -1192,11 +1196,6 @@ const Dashboard = () => {
           </motion.div>
         )}
 
-        <section className="mt-10">
-  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <Statistics />
-  </div>
-</section>
  <h3 className="text-lg font-semibold text-h2-dark mb-4 flex items-center">
               <Activity className="w-5 h-5 mr-2 text-h2-primary" />
               Análise de Viabilidade para Hidrogênio Verde
