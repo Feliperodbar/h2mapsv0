@@ -336,7 +336,7 @@ const Statistics = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen">
       {/* Header */}
       <header className="bg-white border-b border-slate-200 px-6 py-4">
         <div className="flex items-center justify-between">
@@ -482,146 +482,14 @@ const Statistics = () => {
         )}
 
         {/* Statistics Summary */}
-        {!loading && statistics && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="bg-white rounded-xl border border-slate-200 p-6"
-            >
-              <div className="flex items-center justify-between mb-4">
-                <Thermometer className="w-8 h-8 text-red-500" />
-                <span className="text-sm text-slate-500">Temperatura</span>
-              </div>
-              <div className="space-y-2">
-                <div className="text-2xl font-bold text-slate-900">{statistics.avgTemperature}°C</div>
-                <div className="flex justify-between text-sm">
-                  <span className="text-slate-600">Máx: {statistics.maxTemperature}°C</span>
-                  <span className="text-slate-600">Mín: {statistics.minTemperature}°C</span>
-                </div>
-              </div>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 }}
-              className="bg-white rounded-xl border border-slate-200 p-6"
-            >
-              <div className="flex items-center justify-between mb-4">
-                <Wind className="w-8 h-8 text-green-500" />
-                <span className="text-sm text-slate-500">Vento</span>
-              </div>
-              <div className="space-y-2">
-                <div className="text-2xl font-bold text-slate-900">{statistics.avgWindSpeed} m/s</div>
-                <div className="flex justify-between text-sm">
-                  <span className="text-slate-600">Máx: {statistics.maxWindSpeed} m/s</span>
-                  <span className="text-slate-600">Média</span>
-                </div>
-              </div>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-              className="bg-white rounded-xl border border-slate-200 p-6"
-            >
-              <div className="flex items-center justify-between mb-4">
-                <Droplets className="w-8 h-8 text-blue-500" />
-                <span className="text-sm text-slate-500">Umidade</span>
-              </div>
-              <div className="space-y-2">
-                <div className="text-2xl font-bold text-slate-900">{statistics.avgHumidity}%</div>
-                <div className="text-sm text-slate-600">Média do período</div>
-              </div>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 }}
-              className="bg-white rounded-xl border border-slate-200 p-6"
-            >
-              <div className="flex items-center justify-between mb-4">
-                <Sun className="w-8 h-8 text-yellow-500" />
-                <span className="text-sm text-slate-500">Solar</span>
-              </div>
-              <div className="space-y-2">
-                <div className="text-2xl font-bold text-slate-900">{statistics.avgSolarIrradiance} W/m²</div>
-                <div className="text-sm text-slate-600">Irradiação média</div>
-              </div>
-            </motion.div>
-          </div>
-        )}
+        
 
         {/* Detailed Parameters */}
-        {!loading && historicalData.length > 0 && (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-            {selectedParameters.map(paramId => {
-              const param = parameters.find(p => p.id === paramId);
-              const stats = getParameterStats(paramId);
-              
-              if (!param || !stats) return null;
-
-              return (
-                <motion.div
-                  key={paramId}
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  className="bg-white rounded-xl border border-slate-200 p-6"
-                >
-                  
-                  
-                  <div className="grid grid-cols-3 gap-4 mb-4">
-                    <div className="text-center">
-                      <div className="text-2xl font-bold text-slate-900">{stats.avg}</div>
-                      <div className="text-xs text-slate-600">Média</div>
-                    </div>
-                    <div className="text-center">
-                      <div className="text-2xl font-bold text-red-600">{stats.max}</div>
-                      <div className="text-xs text-slate-600">Máximo</div>
-                    </div>
-                    <div className="text-center">
-                      <div className="text-2xl font-bold text-blue-600">{stats.min}</div>
-                      <div className="text-xs text-slate-600">Mínimo</div>
-                    </div>
-                  </div>
-
-                  {/* Mini chart visualization */}
-                  <div className="h-20 bg-slate-50 rounded-lg flex items-end justify-between px-2 py-1">
-                    {historicalData.slice(-20).map((item, index) => {
-                      const value = item[paramId as keyof HistoricalData] as number;
-                      const percentage = ((value - stats.min) / (stats.max - stats.min)) * 100;
-                      return (
-                        <div
-                          key={index}
-                          className="flex-1 mx-px rounded-t"
-                          style={{
-                            height: `${Math.max(5, percentage)}%`,
-                            backgroundColor: param.color,
-                            opacity: 0.7
-                          }}
-                        />
-                      );
-                    })}
-                  </div>
-                </motion.div>
-              );
-            })}
-          </div>
-        )}
-
+        
         {/* Data Table */}
         {!loading && historicalData.length > 0 && (
           <div className="bg-white rounded-xl border border-slate-200 p-6">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-semibold text-slate-900">Dados Detalhados</h3>
-              <div className="flex items-center space-x-2 text-sm text-slate-600">
-                <Clock className="w-4 h-4" />
-                <span>{statistics?.dataPoints} pontos de dados</span>
-              </div>
-            </div>
+            
             
             <div className="overflow-x-auto">
               <table className="w-full text-sm">

@@ -1188,7 +1188,16 @@ const Dashboard = () => {
             animate={{ opacity: 1, y: 0 }}
             className="bg-h2-white border-b border-h2-bright px-6 py-4"
           >
-            <h3 className="text-lg font-semibold text-h2-dark mb-4 flex items-center">
+           
+          </motion.div>
+        )}
+
+        <section className="mt-10">
+  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <Statistics />
+  </div>
+</section>
+ <h3 className="text-lg font-semibold text-h2-dark mb-4 flex items-center">
               <Activity className="w-5 h-5 mr-2 text-h2-primary" />
               Análise de Viabilidade para Hidrogênio Verde
             </h3>
@@ -1300,15 +1309,6 @@ const Dashboard = () => {
               )}
               
             </div>
-          </motion.div>
-        )}
-
-        <section className="mt-10">
-  <h2 className="text-xl font-semibold text-slate-800 mb-4">Estatísticas Climáticas</h2>
-  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <Statistics />
-  </div>
-</section>
         </header>
 
       
