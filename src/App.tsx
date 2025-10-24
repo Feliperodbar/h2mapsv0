@@ -61,28 +61,10 @@ function LandingPage() {
                 Recursos
               </a>
               <a
-                href="#technology"
-                className="text-slate-600 hover:text-emerald-600 transition-colors"
-              >
-                Tecnologia
-              </a>
-              <a
                 href="#conservation"
                 className="text-slate-600 hover:text-emerald-600 transition-colors"
               >
                 Conservação
-              </a>
-              <a
-                href="#benefits"
-                className="text-slate-600 hover:text-emerald-600 transition-colors"
-              >
-                Benefícios
-              </a>
-              <a
-                href="#contact"
-                className="text-slate-600 hover:text-emerald-600 transition-colors"
-              >
-                Contato
               </a>
               <Link
                 to="/dashboard"
@@ -404,8 +386,6 @@ function LandingPage() {
           </div>
         </div>
       </section>
-
-  
 
       {/* Footer */}
       <footer className="bg-slate-900 text-slate-300 py-12 px-4 sm:px-6 lg:px-8">
