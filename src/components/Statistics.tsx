@@ -345,8 +345,6 @@ const Statistics = () => {
               to="/dashboard"
               className="flex items-center space-x-2 text-slate-600 hover:text-slate-900 transition-colors"
             >
-              <ArrowLeft className="w-5 h-5" />
-              <span>Voltar ao Dashboard</span>
             </Link>
             <h1 className="text-2xl font-bold text-slate-900">Análise Estatística</h1>
           </div>
@@ -573,13 +571,7 @@ const Statistics = () => {
                   animate={{ opacity: 1, scale: 1 }}
                   className="bg-white rounded-xl border border-slate-200 p-6"
                 >
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="flex items-center space-x-3">
-                      <param.icon className="w-6 h-6" style={{ color: param.color }} />
-                      <h3 className="text-lg font-semibold text-slate-900">{param.name}</h3>
-                    </div>
-                    <span className="text-sm text-slate-500">{param.unit}</span>
-                  </div>
+                  
                   
                   <div className="grid grid-cols-3 gap-4 mb-4">
                     <div className="text-center">
@@ -694,6 +686,8 @@ const Statistics = () => {
       </div>
     </div>
   );
+  
 };
+
 
 export default Statistics;

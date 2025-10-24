@@ -1,3 +1,4 @@
+import Statistics from './Statistics';
 import { useState, useEffect } from 'react';
 import React from 'react';
 import { Link } from 'react-router-dom';
@@ -1051,7 +1052,7 @@ const Dashboard = () => {
 
         {/* Navigation Menu */}
         {sidebarOpen && (
-          <div className="p-4 border-b border-h2-bright">
+          <div className="p-4">
             <h3 className="text-sm font-semibold text-h2-bright mb-3">NAVEGAÇÃO</h3>
             <div className="space-y-2">
               <button className="w-full flex items-center space-x-3 px-3 py-2 rounded-lg hover:bg-h2-light-green transition-colors">
@@ -1071,49 +1072,19 @@ const Dashboard = () => {
 
         {/* Map Controls */}
         {sidebarOpen && (
-          <div className="p-4 border-b border-h2-bright">
-            <h3 className="text-sm font-semibold text-h2-bright mb-3">CONTROLES DE MAPA</h3>
+          <div className="p-4 ">
             <div className="space-y-3">
-              <button
-                onClick={addMap}
-                disabled={maps.length >= 4}
-                className="w-full flex items-center space-x-2 px-3 py-2 bg-h2-primary text-h2-white rounded-lg hover:bg-opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-              >
-                <Plus className="w-4 h-4" />
-                <span className="text-sm font-medium">Adicionar Mapa</span>
-              </button>
-              <div className="text-xs text-h2-bright text-center">
-                {maps.length} de 4 mapas
-              </div>
+                         
               
-              {/* Map Type Assignment */}
-              <div className="mt-4">
-                <h4 className="text-xs font-semibold text-h2-bright mb-2">TIPOS DE MAPA DISPONÍVEIS</h4>
-                <div className="space-y-1">
-                  {mapTypes.map((type, index) => {
-                    const mapAssigned = maps.find(m => m.type === type.id);
-                    return (
-                      <div key={type.id} className="flex items-center justify-between text-xs">
-                        <span className="flex items-center space-x-1">
-                          <type.icon className="w-3 h-3" style={{ color: type.color }} />
-                          <span>{type.name}</span>
-                        </span>
-                        <span className={mapAssigned ? "text-h2-primary" : "text-h2-bright"}>
-                          {mapAssigned ? "Mapa " + (maps.indexOf(mapAssigned) + 1) : "Não atribuído"}
-                        </span>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
+              
 
               {/* Hydrogen Analysis Section */}
               {sidebarOpen && (
-                <div className="p-4 border-b border-h2-bright">
-                  <h3 className="text-sm font-semibold text-h2-bright mb-3">ANÁLISE DE HIDROGÊNIO</h3>
+                <div className=" border-b border-h2-bright">
+                  <h3 className="text-sm font-semibold text-h2 mb-3">ANÁLISE DE HIDROGÊNIO</h3>
                   <div className="space-y-3">
                     <div>
-                      <label className="text-xs text-h2-bright mb-1 block">Período de Análise</label>
+                      <label className="text-xs text-h2 mb-1 block">Período de Análise</label>
                       <select
                         value={selectedAnalysisPeriod}
                         onChange={(e) => setSelectedAnalysisPeriod(e.target.value)}
@@ -1210,9 +1181,7 @@ const Dashboard = () => {
               </button>
             </div>
           </div>
-        </header>
-
-        {/* Analysis Results Panel */}
+            {/* Analysis Results Panel */}
         {(hydrogenViability || environmentalAnalysis) && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -1329,282 +1298,23 @@ const Dashboard = () => {
                   </div>
                 </div>
               )}
+              
             </div>
           </motion.div>
         )}
 
-        {/* Map Controls Bar */}
-        <div className="bg-h2-white border-b border-h2-bright px-6 py-3">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
-              {/* Removed map count display */}
-            </div>
+        <section className="mt-10">
+  <h2 className="text-xl font-semibold text-slate-800 mb-4">Estatísticas Climáticas</h2>
+  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <Statistics />
+  </div>
+</section>
+        </header>
 
-            {/* Current Location Info */}
-            {weatherData && (
-              <div className="flex items-center space-x-4 text-sm text-slate-600">
-                <div className="flex items-center space-x-1">
-                  <MapPin className="w-4 h-4" />
-                  <span>{weatherData.location}</span>
-                </div>
-                <div className="flex items-center space-x-1">
-                  <Thermometer className="w-4 h-4" />
-                  <span>{weatherData.temperature}°C</span>
-                </div>
-                <div className="flex items-center space-x-1">
-                  <Wind className="w-4 h-4" />
-                  <span>{weatherData.windSpeed} km/h</span>
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* Map Mosaic */}
-        <div className="flex-1 p-6">
-          <div className={`grid ${getMapGridClass()} gap-4 h-full`}>
-            {maps.map((map, index) => (
-              <motion.div
-                key={map.id}
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.3, delay: index * 0.1 }}
-                className="bg-h2-white rounded-xl border border-h2-bright overflow-hidden"
-              >
-                {/* Map Header */}
-                <div className="bg-h2-light-green border-b border-h2-bright px-4 py-3">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-3">
-                      <h3 className="text-sm font-semibold text-h2-dark">{map.title}</h3>
-                      <select
-                        value={map.type}
-                        onChange={(e) => updateMap(map.id, { type: e.target.value as MapConfig['type'] })}
-                        className="text-xs border border-h2-medium-green rounded px-2 py-1 focus:outline-none focus:ring-1 focus:ring-h2-primary"
-                      >
-                        {mapTypes.map(type => (
-                          <option key={type.id} value={type.id}>{type.name}</option>
-                        ))}
-                      </select>
-                    </div>
-                    <div className="flex items-center space-x-1">
-                      <button
-                        onClick={() => duplicateMap(map.id)}
-                        disabled={maps.length >= 4}
-                        className="p-1 hover:bg-h2-medium-green rounded transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                        title="Duplicar mapa"
-                      >
-                        <Copy className="w-4 h-4 text-h2-bright" />
-                      </button>
-                      <button
-                        onClick={() => removeMap(map.id)}
-                        disabled={maps.length <= 1}
-                        className="p-1 hover:bg-h2-medium-green rounded transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                        title="Remover mapa"
-                      >
-                        <Minus className="w-4 h-4 text-h2-bright" />
-                      </button>
-                      <button
-                        className="p-1 hover:bg-h2-medium-green rounded transition-colors"
-                        title="Maximizar"
-                      >
-                        <Maximize2 className="w-4 h-4 text-h2-bright" />
-                      </button>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Map Content */}
-                <div className={`relative ${getMapHeight()} bg-slate-100`}>
-                  {/* Map Placeholder with real data visualization */}
-                  <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-20">
-                    <div className="text-center">
-                      {mapTypes.find(t => t.id === map.type)?.icon && 
-                        React.createElement(mapTypes.find(t => t.id === map.type)!.icon, {
-                          className: "w-12 h-12 mx-auto mb-2",
-                          style: { color: mapTypes.find(t => t.id === map.type)?.color }
-                        })
-                      }
-                      
-                      {/* Real-time Data Display for Each Parameter */}
-                      {weatherData && (
-                        <div className="bg-white rounded-lg p-3 shadow-lg max-w-xs mx-auto absolute bottom-4 right-4 text-xs">
-                          {map.type === 'weather' && (
-                            <>
-                              <div className="text-2xl font-bold text-slate-900 mb-2">
-                                {weatherData.temperature}°C
-                              </div>
-                              <div className="text-sm text-slate-600 mb-2">
-                                {weatherData.description}
-                              </div>
-                              <div className="grid grid-cols-2 gap-2 text-xs">
-                                <div>
-                                  <span className="text-slate-500">Umidade:</span>
-                                  <span className="font-medium ml-1">{weatherData.humidity}%</span>
-                                </div>
-                                <div>
-                                  <span className="text-slate-500">Vento:</span>
-                                  <span className="font-medium ml-1">{weatherData.windSpeed} km/h</span>
-                                </div>
-                                <div>
-                                  <span className="text-slate-500">Pressão:</span>
-                                  <span className="font-medium ml-1">{weatherData.pressure} hPa</span>
-                                </div>
-                                <div>
-                                  <span className="text-slate-500">Visibilidade:</span>
-                                  <span className="font-medium ml-1">{weatherData.visibility} km</span>
-                                </div>
-                              </div>
-                            </>
-                          )}
-                          
-                          {map.type === 'wind' && (
-                            <>
-                              <div className="text-2xl font-bold text-slate-900 mb-2">
-                                {weatherData.windSpeed} km/h
-                              </div>
-                              <div className="text-sm text-slate-600 mb-2">
-                                Direção: {weatherData.windDirection}°
-                              </div>
-                              <div className="flex items-center justify-center mb-3">
-                                <div className="w-16 h-16 border-4 border-slate-300 rounded-full relative">
-                                  <div 
-                                    className="absolute top-1/2 left-1/2 w-1 h-6 bg-blue-500 origin-bottom"
-                                    style={{
-                                      transform: `translate(-50%, -100%) rotate(${weatherData.windDirection}deg)`
-                                    }}
-                                  ></div>
-                                </div>
-                              </div>
-                              <div className="text-xs text-slate-600 text-center">
-                                Vento: {weatherData.windSpeed < 5 ? 'Leve' : weatherData.windSpeed < 15 ? 'Moderado' : weatherData.windSpeed < 25 ? 'Forte' : 'Muito Forte'}
-                              </div>
-                            </>
-                          )}
-                          
-                          {map.type === 'temperature' && (
-                            <>
-                              <div className="text-3xl font-bold text-red-600 mb-2">
-                                {weatherData.temperature}°C
-                              </div>
-                              <div className="text-sm text-slate-600 mb-3">
-                                Temperatura Atual
-                              </div>
-                              <div className="w-full bg-slate-200 rounded-full h-2">
-                                <div 
-                                  className="bg-red-500 h-2 rounded-full"
-                                  style={{ width: `${Math.min(100, (weatherData.temperature / 40) * 100)}%` }}
-                                ></div>
-                              </div>
-                              <div className="text-xs text-slate-500 mt-1">
-                                {weatherData.temperature < 10 ? 'Frio' : weatherData.temperature < 25 ? 'Agradável' : 'Quente'}
-                              </div>
-                            </>
-                          )}
-                          
-                          {map.type === 'humidity' && (
-                            <>
-                              <div className="text-3xl font-bold text-blue-600 mb-2">
-                                {weatherData.humidity}%
-                              </div>
-                              <div className="text-sm text-slate-600 mb-3">
-                                Umidade Relativa
-                              </div>
-                              <div className="w-full bg-slate-200 rounded-full h-2">
-                                <div 
-                                  className="bg-blue-500 h-2 rounded-full"
-                                  style={{ width: `${weatherData.humidity}%` }}
-                                ></div>
-                              </div>
-                              <div className="text-xs text-slate-500 mt-1">
-                                {weatherData.humidity < 30 ? 'Muito Seco' : weatherData.humidity < 60 ? 'Confortável' : weatherData.humidity < 80 ? 'Úmido' : 'Muito Úmido'}
-                              </div>
-                            </>
-                          )}
-                          
-                          {map.type === 'pressure' && (
-                            <>
-                              <div className="text-3xl font-bold text-purple-600 mb-2">
-                                {weatherData.pressure} hPa
-                              </div>
-                              <div className="text-sm text-slate-600 mb-3">
-                                Pressão Atmosférica
-                              </div>
-                              <div className="text-xs text-slate-500">
-                                {weatherData.pressure < 1000 ? 'Baixa Pressão' : weatherData.pressure < 1020 ? 'Pressão Normal' : 'Alta Pressão'}
-                              </div>
-                            </>
-                          )}
-                          
-                          {map.type === 'solar' && (
-                            <>
-                              <div className="text-3xl font-bold text-yellow-600 mb-2">
-                                {weatherData.uvi}
-                              </div>
-                              <div className="text-sm text-slate-600 mb-3">
-                                Índice UV
-                              </div>
-                              <div className="w-full bg-slate-200 rounded-full h-2">
-                                <div 
-                                  className="bg-yellow-500 h-2 rounded-full"
-                                  style={{ width: `${Math.min(100, (weatherData.uvi / 11) * 100)}%` }}
-                                ></div>
-                              </div>
-                              <div className="text-xs text-slate-500 mt-1">
-                                {weatherData.uvi < 3 ? 'Baixo' : weatherData.uvi < 6 ? 'Moderado' : weatherData.uvi < 8 ? 'Alto' : weatherData.uvi < 11 ? 'Muito Alto' : 'Extremo'}
-                              </div>
-                            </>
-                          )}
-                        </div>
-                      )}
-
-                      {/* Placeholder for other map types */}
-                      {!weatherData && (
-                        <div className="bg-white rounded-lg p-4 shadow-lg max-w-xs mx-auto">
-                          <div className="text-sm text-slate-600">
-                            Carregue dados climáticos para visualizar {mapTypes.find(t => t.id === map.type)?.name}
-                          </div>
-                          <div className="text-xs text-slate-500 mt-2">
-                            Selecione uma cidade na busca para começar
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-
-                  {/* Map Type Indicator */}
-                  <div className="absolute top-4 left-4">
-                    <div 
-                      className="px-3 py-1 rounded-full text-xs font-medium text-white"
-                      style={{ backgroundColor: mapTypes.find(t => t.id === map.type)?.color }}
-                    >
-                      {mapTypes.find(t => t.id === map.type)?.name}
-                    </div>
-                  </div>
-
-                  {/* Zoom Controls */}
-                  <div className="absolute top-4 right-4 flex flex-col space-y-1">
-                    <button
-                      onClick={() => updateMap(map.id, { zoom: Math.min(map.zoom + 1, 18) })}
-                      className="bg-white p-1 rounded shadow hover:bg-slate-50 transition-colors"
-                    >
-                      <Plus className="w-4 h-4 text-slate-600" />
-                    </button>
-                    <button
-                      onClick={() => updateMap(map.id, { zoom: Math.max(map.zoom - 1, 1) })}
-                      className="bg-white p-1 rounded shadow hover:bg-slate-50 transition-colors"
-                    >
-                      <Minus className="w-4 h-4 text-slate-600" />
-                    </button>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-
-
-        </div>
+      
       </div>
     </div>
+    
   );
 };
 
